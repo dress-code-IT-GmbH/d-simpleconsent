@@ -1,0 +1,79 @@
+= Docker Packaging for SimpleConsent
+
+== Function
+
+This repo provides the dockier build pipeline the Django app "simpleconsent".
+
+
+== Artifact Overview
+ 
+The container contains:
+
+|===
+| Artifact | Value | Description
+| APPHOME | /opt/PVZDweb | App Root Directory
+| Django Konfiguration | simpleconsent/settings.py
+| Logging web app | /var/log/webapp |
+| Logging shibd | /var/log/shibboleth |
+| Startscript | /opt/bin/start.sh
+| Service | django webapp | see INSTALLED_APPS
+|===
+
+
+== Dependencies
+
+The web application requires
+
+- a service provider (shibsp) for the myconsent app, and
+- a database as Django storage backend.
+
+
+== Installation and Configuration
+
+The process to create a docker image is defined with a Jenkins job.
+See the pipeline definition in Jenkinsfile.
+
+
+.Django Settings Files
+|===
+| DJANGO_SETTINGS_MODULE | Usage
+|settings_base | Base configuration, shall not be changed for deployment
+|settings | deployment config (DB etc.)
+|===
+
+
+Django settings requires customization of:
+
+|===
+| Key | Usage
+| DATABASE | consent store
+| SECRET_KEY |  deployment specific secret (`openssl rand -base64 40`)
+|===
+
+== Authentification
+
+Siehe das README von simpleconsent.
+The application requires the userId in the X-PVP-USERID HTTP Header .
+
+
+== Logging
+
+Gunicorn is logging to /var/log/webapp
+
+/opt/bin/rotate_logs.sh rotates logs as configures in /opt/etc/logrotate/logrotate.conf
+
+Call it periodically, e.g.:
+
+    docker.compose [-f config] exec <service> /opt/bin/rotate_logs.sh [-v]
+
+== Trouble Shooting
+
+The web application is invoked via a proxy chain,
+which requires close inspection in case of a "500 internal server error".
+
+Reasons for HTTP-codes >= 400 could be:
+1. Edge-Proxy
+2. Webserver/gunicorn (/var/log/webapp)
+3. Webapp/django has no separate logfile.
+   Enable debug logging in Django Settings (-> DJANGO_SETTINGS_MODULE) with DEBUG=True,
+   or DJANGO_DEBUG for the container.

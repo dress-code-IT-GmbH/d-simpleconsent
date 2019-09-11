@@ -1,0 +1,10 @@
+**/.DS_Store
+.idea/
+.cache
+**/*.pyc
+**/__pycache__/
+docker-compose.yaml
+*.iml
+manifest/local/
+out/
+work/

@@ -1,0 +1,43 @@
+# Baseline config - requires additional config for command and django settings
+version: "3.5"
+services:
+  simpleconsent:
+    build:
+      context: .
+    image: local/simpleconsent
+    container_name: simpleconsent
+    command: /opt/bin/start_webapp.sh
+    labels:
+      simpleconsent.jenkins: default
+    #deploy:
+    #  placement:
+    #    constraints:
+    #      - node.hostname == nc8
+    #  replicas: 1
+    #  restart_policy:
+    #    condition: on-failure
+    environment:
+      DJANGO_SETTINGS_MODULE: simpleconsent.settings
+      DJANGO_SECRET_KEY:
+      DJANGO_DEBUG:
+    restart: unless-stopped
+    networks:
+      jenkins:
+    volumes:
+      - simpleconsent.opt_etc:/opt/etc:Z
+      - simpleconsent.settings:/opt/simpleconsent/simpleconsent:Z
+      - simpleconsent.var_log:/var/log:Z
+
+networks:
+  jenkins:
+    name: jenkins
+    # driver: overlay
+    # attachable: true
+
+volumes:
+  simpleconsent.opt_etc:
+    name: simpleconsent.opt_etc
+  simpleconsent.settings:
+    name: simpleconsent.settings
+  simpleconsent.var_log:
+    name: simpleconsent.var_log

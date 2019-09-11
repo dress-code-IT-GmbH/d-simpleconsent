@@ -1,0 +1,6 @@
+[submodule "simpleconsent"]
+	path = simpleconsent
+	url = https://github.com/identinetics/simpleconsent
+[submodule "dcshell"]
+	path = dcshell
+	url = https://github.com/identinetics/dcshell
