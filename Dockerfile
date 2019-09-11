@@ -7,7 +7,7 @@ RUN yum -y update \
 
 # install web application
 ENV APPHOME=/opt/simpleconsent
-COPY install/simpleconsent $APPHOME
+COPY simpleconsent $APPHOME
 RUN pip3.6 install virtualenv \
  && mkdir -p /opt/venv /var/log/webapp/ /var/run/webapp/ \
  && virtualenv --python=/usr/bin/python3.6 /opt/venv \
