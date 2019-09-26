@@ -5,6 +5,7 @@ scriptdir=$(cd "$(dirname ${BASH_SOURCE[0]})" && pwd)
 
 main() {
     start_appserver
+    start_reverse_proxy
     keep_running
     trap propagate_signals SIGTERM
 }
@@ -21,6 +22,12 @@ start_appserver() {
 }
 
 
+start_reverse_proxy() {
+    # start nginx (used to serve static files)
+    /usr/sbin/nginx -c /opt/etc/nginx/nginx.conf
+}
+
+
 keep_running() {
     echo 'wait for SIGINT/SIGKILL'
     while true; do sleep 36000; done
@@ -30,6 +37,7 @@ keep_running() {
 
 propagate_signals() {
     kill -s SIGTERM $(cat /var/run/webapp/gunicorn.pid)
+    kill -s SIGQUIT $(cat /var/run/nginx/nginx.pid)
 }
 
 
