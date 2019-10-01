@@ -1,4 +1,5 @@
 FROM intra/ubi8-py36
+# intra/ubi8-py36 is a synonym to registry.access.redhat.com/ubi8/python-36
 
 USER root
 RUN dnf -y update \
@@ -23,7 +24,7 @@ RUN python -m pip install virtualenv \
  && mkdir -p /opt/venv /var/log/webapp/ /var/run/webapp/ \
  && virtualenv /opt/venv \
  && source /opt/venv/bin/activate \
- && python -m pip install gunicorn \
+ && python -m pip install gunicorn django-mssql \
  && python -m pip install -r $APPHOME/requirements.txt \
  && python setup.py install
 COPY install/etc/profile.d/py_venv.sh /etc/profile.d/py_venv.sh
