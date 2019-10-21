@@ -1,15 +1,16 @@
-FROM intra/ubi7-py36-memcached
+FROM intra/centos7_py37_base
 
 USER root
-RUN dnf -y update \
- && dnf -y install iputils logrotate net-tools \
- && dnf clean all
+RUN yum -y update \
+ && yum -y install epel-release \
+ && yum -y install gcc-c++ iputils logrotate net-tools \
+ && yum clean all
 
 # install nginx
 # (Rationale: gunicorn does not serve static files. To avoid an extra deployment interface,
 # nginx serves /static/ it within this container)
-RUN  dnf -y install nginx \
- && dnf clean all \
+RUN  yum -y install nginx \
+ && yum clean all \
  && mkdir -p /opt/etc/nginx /var/log/nginx/ /var/run/nginx/  \
  && chown nginx:nginx /var/log/nginx/ /var/run/nginx/
 COPY install/etc/nginx /opt/etc/nginx
@@ -20,9 +21,9 @@ COPY simpleconsent $APPHOME
 
 WORKDIR $APPHOME
 RUN curl https://packages.microsoft.com/config/rhel/7/prod.repo > /etc/yum.repos.d/mssql-release.repo \
- && ACCEPT_EULA=Y dnf -y install msodbcsql17 unixODBC unixODBC-devel \
- && dnf clean all \
- && python -m pip install virtualenv \
+ && ACCEPT_EULA=Y yum -y install msodbcsql17 unixODBC unixODBC-devel \
+ && yum clean all \
+ && python3 -m pip install virtualenv \
  && mkdir -p /opt/venv /var/log/webapp/ /var/run/webapp/ \
  && virtualenv /opt/venv \
  && source /opt/venv/bin/activate \
