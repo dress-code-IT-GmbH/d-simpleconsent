@@ -9,9 +9,9 @@ RUN dnf -y update \
 # install nginx
 # (Rationale: gunicorn does not serve static files. To avoid an extra deployment interface,
 # nginx serves /static/ it within this container)
-RUN  yum -y install nginx \
- && yum clean all
-RUN mkdir -p /opt/etc/nginx /var/log/nginx/ /var/run/nginx/  \
+RUN  dnf -y install nginx \
+ && dnf clean all \
+ && mkdir -p /opt/etc/nginx /var/log/nginx/ /var/run/nginx/  \
  && chown nginx:nginx /var/log/nginx/ /var/run/nginx/
 COPY install/etc/nginx /opt/etc/nginx
 
@@ -20,7 +20,10 @@ ENV APPHOME=/opt/simpleconsent
 COPY simpleconsent $APPHOME
 
 WORKDIR $APPHOME
-RUN python -m pip install virtualenv \
+RUN curl https://packages.microsoft.com/config/rhel/7/prod.repo > /etc/yum.repos.d/mssql-release.repo \
+ && ACCEPT_EULA=Y dnf -y install msodbcsql17 unixODBC unixODBC-devel \
+ && dnf clean all \
+ && python -m pip install virtualenv \
  && mkdir -p /opt/venv /var/log/webapp/ /var/run/webapp/ \
  && virtualenv /opt/venv \
  && source /opt/venv/bin/activate \
