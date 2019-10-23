@@ -20,14 +20,16 @@ ENV APPHOME=/opt/simpleconsent
 COPY simpleconsent $APPHOME
 
 WORKDIR $APPHOME
+ENV MSSQLODBC13=msodbcsql
 RUN curl https://packages.microsoft.com/config/rhel/7/prod.repo > /etc/yum.repos.d/mssql-release.repo \
- && ACCEPT_EULA=Y yum -y install msodbcsql17 unixODBC unixODBC-devel \
+ && yum -y install unixODBC unixODBC-devel \
+ && ACCEPT_EULA=Y yum -y install $MSSQLODBC13 \
  && yum clean all \
  && python3 -m pip install virtualenv \
  && mkdir -p /opt/venv /var/log/webapp/ /var/run/webapp/ \
  && virtualenv /opt/venv \
  && source /opt/venv/bin/activate \
- && python -m pip install gunicorn django-mssql django-pyodbc-azure \
+ && python -m pip install gunicorn django-mssql-backend \
  && python -m pip install -r $APPHOME/requirements.txt \
  && python setup.py install
 COPY install/etc/profile.d/py_venv.sh /etc/profile.d/py_venv.sh

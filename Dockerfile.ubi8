@@ -6,8 +6,7 @@ FROM intra/ubi8-py36
 # Need to fix with (RH) support
 
 USER root
-RUN dnf -y update \
- && dnf -y install iputils logrotate net-tools \
+RUN dnf -y install iputils logrotate net-tools \
  && dnf clean all
 
 # install nginx
@@ -31,7 +30,7 @@ RUN curl https://packages.microsoft.com/config/rhel/8/prod.repo > /etc/yum.repos
  && mkdir -p /opt/venv /var/log/webapp/ /var/run/webapp/ \
  && virtualenv /opt/venv \
  && source /opt/venv/bin/activate \
- && python -m pip install gunicorn django-mssql django-pyodbc-azure \
+ && python -m pip install gunicorn django-mssql-backend \
  && python -m pip install -r $APPHOME/requirements.txt \
  && python setup.py install
 COPY install/etc/profile.d/py_venv.sh /etc/profile.d/py_venv.sh
