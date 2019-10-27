@@ -15,7 +15,7 @@ RUN  yum -y install nginx \
  && chown nginx:nginx /var/log/nginx/ /var/run/nginx/
 COPY install/etc/nginx /opt/etc/nginx
 
-# install web application
+# install web application into filesystem
 ENV APPHOME=/opt/simpleconsent
 COPY simpleconsent $APPHOME
 
