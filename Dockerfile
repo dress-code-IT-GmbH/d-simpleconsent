@@ -1,4 +1,4 @@
-FROM intra/centos7_py37_base
+FROM intra/centos7_py36_base
 
 USER root
 RUN yum -y update \

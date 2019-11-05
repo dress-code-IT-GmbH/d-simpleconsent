@@ -15,7 +15,7 @@ start_appserver() {
     echo "starting gunicorn"
     # settings.py/INSTALLED_APPS controls which webapps are serviced in this instance
     source /etc/profile.d/py_venv.sh
-    export PYTHONPATH=$APPHOME:$APPHOME/PVZDlib
+    export PYTHONPATH=$APPHOME:$APPHOME/simpleconsent
     # missing error message "worker failed ot boot"? add --preload option
     mkdir -p /var/run/webapp/
     gunicorn --config=/opt/etc/gunicorn/config.py simpleconsent.wsgi:application --pid /var/run/webapp/gunicorn.pid &
