@@ -17,6 +17,7 @@ services:
     #  restart_policy:
     #    condition: on-failure
     environment:
+      CONSENT_TEMPLATE: /opt/html/consent_requ/index.html
       DJANGO_SETTINGS_MODULE: simpleconsent.settings
       DJANGO_SECRET_KEY:
       DJANGO_DEBUG:
