@@ -18,6 +18,7 @@ COPY install/etc/nginx /opt/etc/nginx
 # install web application into filesystem
 ENV APPHOME=/opt/simpleconsent
 COPY simpleconsent $APPHOME
+COPY simpleconsent/example/templates /opt/html/consent_requ
 
 # install mssql for prod + pgsql for test env
 WORKDIR $APPHOME
