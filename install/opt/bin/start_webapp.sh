@@ -13,6 +13,9 @@ main() {
 
 start_appserver() {
     echo "starting gunicorn"
+    # set default charset for python 3
+    export LC_ALL="en_US.UTF-8"
+    export LANG="en_US.UTF-8"
     # settings.py/INSTALLED_APPS controls which webapps are serviced in this instance
     source /etc/profile.d/py_venv.sh
     export PYTHONPATH=$APPHOME:$APPHOME/simpleconsent
