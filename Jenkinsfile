@@ -65,7 +65,7 @@ pipeline {
                          nocacheopt='-c'
                          echo 'build with option nocache'
                     fi
-                    if [[ $ipv4_only ]]; then $compose_f_opt = "${compose_f_opt} --build-arg IPV4_ONLY ; fi
+                    if [[ $ipv4_only ]]; then $compose_f_opt = "${compose_f_opt} --build-arg IPV4_ONLY" ; fi
                     export MANIFEST_SCOPE='local'
                     export PROJ_HOME='.'
                     ./dcshell/build $compose_f_opt $nocacheopt || \
