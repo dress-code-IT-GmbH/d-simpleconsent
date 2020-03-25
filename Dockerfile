@@ -2,7 +2,14 @@ FROM intra/centos7_py36_base
 
 USER root
 
-RUN echo "ip_resolve=4" >> /etc/yum.conf
+RUN if [ "${IPV4_ONLY}" = "1" ] ; \
+       then echo "ip_resolve=4" >> /etc/yum.conf \
+       && echo "IPV4 only build"; fi
+RUN if [ ! -z "${HTTP_PROXY}" ] ; \
+       then echo "proxy=${HTTP_PROXY}" >> /etc/yum.conf \
+       && echo "building with proxy=${HTTP_PROXY}"; fi
+
+RUN cat /etc/yum.conf
 
 RUN yum -y update \
  && yum -y install epel-release \
