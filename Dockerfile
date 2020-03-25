@@ -1,5 +1,7 @@
 FROM intra/centos7_py36_base
 
+echo "ip_resolve=4" >> /etc/yum.conf
+
 USER root
 RUN yum -y update \
  && yum -y install epel-release \
