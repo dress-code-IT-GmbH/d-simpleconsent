@@ -21,6 +21,7 @@ pipeline {
         string(defaultValue: '', description: '"True": "Set --nocache for docker build; otherwise leave empty', name: 'nocache')
         string(defaultValue: '', description: '"True": push docker image after build; otherwise leave empty', name: 'pushimage')
         string(defaultValue: '', description: '"True": keep running after test; otherwise leave empty to delete container and volumes', name: 'keep_running')
+        string(defaultValue: '', description: '1 if only IPv4 Build', name: 'ipv4_only')
     }
 
     stages {
@@ -64,6 +65,7 @@ pipeline {
                          nocacheopt='-c'
                          echo 'build with option nocache'
                     fi
+                    if [[ $ipv4_only ]]; then $compose_f_opt = "${compose_f_opt} --build-arg IPV4_ONLY ; fi
                     export MANIFEST_SCOPE='local'
                     export PROJ_HOME='.'
                     ./dcshell/build $compose_f_opt $nocacheopt || \
