@@ -67,8 +67,8 @@ pipeline {
                     fi
                     if [[ "${proxy}" ]]; then
                         echo 'setting proxy: ${proxy}'
-                        export http_proxy=${proxy}
-                        export https_proxy=${proxy}
+                        export HTTP_PROXY=${proxy}
+                        export HTTPS_PROXY=${proxy}
                     fi
                     export MANIFEST_SCOPE='local'
                     export PROJ_HOME='.'
