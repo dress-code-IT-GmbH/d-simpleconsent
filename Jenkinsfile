@@ -66,7 +66,7 @@ pipeline {
                          echo 'build with option nocache'
                     fi
                     if [[ "${proxy]" ]]; then
-                        echo "setting proxy: ${proxy}"
+                        echo 'setting proxy: ${proxy}'
                         export http_proxy=${proxy}
                         export https_proxy=${proxy}
                     fi
