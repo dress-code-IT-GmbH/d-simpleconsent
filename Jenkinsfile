@@ -21,6 +21,7 @@ pipeline {
         string(defaultValue: '', description: '"True": "Set --nocache for docker build; otherwise leave empty', name: 'nocache')
         string(defaultValue: '', description: '"True": push docker image after build; otherwise leave empty', name: 'pushimage')
         string(defaultValue: '', description: '"True": keep running after test; otherwise leave empty to delete container and volumes', name: 'keep_running')
+        string(defaultValue: '', description: 'Proxy to use during build', name: 'proxy')
     }
 
     stages {
@@ -63,6 +64,11 @@ pipeline {
                     if [[ "$nocache" ]]; then
                          nocacheopt='-c'
                          echo 'build with option nocache'
+                    fi
+                    if [[ "${proxy]" ]]; then
+                        echo "setting proxy: ${proxy}"
+                        export http_proxy=${proxy}
+                        export https_proxy=${proxy}
                     fi
                     export MANIFEST_SCOPE='local'
                     export PROJ_HOME='.'

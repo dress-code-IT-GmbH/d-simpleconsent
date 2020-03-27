@@ -1,5 +1,8 @@
 FROM intra/centos7_py36_base
 
+RUN env
+
+
 USER root
 RUN yum -y update \
  && yum -y install epel-release \
