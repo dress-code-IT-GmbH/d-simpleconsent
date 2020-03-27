@@ -65,11 +65,11 @@ pipeline {
                          nocacheopt='-c'
                          echo 'build with option nocache'
                     fi
-                    if [[ "${proxy]" ]]; then
-                        echo 'setting proxy: ${proxy}'
-                        export http_proxy=${proxy}
-                        export https_proxy=${proxy}
-                    fi
+                    #if [[ "${proxy]" ]]; then
+                    #    echo 'setting proxy: ${proxy}'
+                    #    export http_proxy=${proxy}
+                    #    export https_proxy=${proxy}
+                    #fi
                     export MANIFEST_SCOPE='local'
                     export PROJ_HOME='.'
                     ./dcshell/build $compose_f_opt $nocacheopt || \
