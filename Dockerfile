@@ -11,6 +11,9 @@ RUN if [ ! -z "${HTTP_PROXY}" ] ; \
 
 RUN cat /etc/yum.conf
 
+RUN yum -y remove "*sqlite*"
+RUN yum -y install sqlite2 sqlite2-devel
+
 RUN yum -y update \
  && yum -y install epel-release \
  && yum -y install gcc-c++ iputils logrotate net-tools \
